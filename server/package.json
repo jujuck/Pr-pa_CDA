@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pg": "^8.12.0",
+    "reflect-metadata": "^0.2.2",
+    "sqlite3": "^5.1.7",
+    "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.5.4",
+    "ts-node-dev": "^2.0.0"
+  },
+  "scripts": {
+    "start": "ts-node-dev src/index.ts",
+    "grep": "cd ./src/database && gh repo list jujuck --json name,url,owner,languages,isPrivate,id >> raw.json",
+    "create": "cd ./src/database && node create.js",
+    "seed": "ts-node-dev ./src/database/seed.ts"
+  }
+}
