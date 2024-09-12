@@ -13,7 +13,8 @@
     "ts-node-dev": "^2.0.0"
   },
   "scripts": {
-    "start": "ts-node-dev src/index.ts",
+    "dev": "ts-node-dev src/index.ts",
+    "prod": "ts-node-dev ./src/database/seed.ts && ts-node-dev src/index.ts",
     "grep": "cd ./src/database && gh repo list jujuck --json name,url,owner,languages,isPrivate,id >> raw.json",
     "create": "cd ./src/database && node create.js",
     "seed": "ts-node-dev ./src/database/seed.ts"
