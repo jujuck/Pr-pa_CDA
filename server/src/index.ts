@@ -1,16 +1,49 @@
-import express from "express";
-import * as dotenv from "dotenv";
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone';
 import { dataSource } from "./database/client";
-import router from "./router";
-const app = express();
+import RepoResolver from './repo/Repo.resolvers';
+import { buildSchema } from 'type-graphql';
+import StatusResolver from './status/Status.resolvers';
+import LangResolver from './lang/Lang.resolvers';
 
-dotenv.config();
-const { SERVER_PORT } = process.env
+(async () =>  {
 
-app.use('/api', router)
+// const typeDefs = `#graphql
+//   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
-app.listen(SERVER_PORT, async () => {
+//   # This "Repo" type defines the queryable fields for every book in our data source.
+//   type Repo {
+//     id: String
+//     name: String
+//     url: String
+//   }
+
+
+//   # The "Query" type is special: it lists all of the available queries that
+//   # clients can execute, along with the return type for each. In this
+//   # case, the "books" query returns an array of zero or more Books (defined above).
+//   type Query {
+//     repos: [Repo]
+//   }
+// `;
+
+
+// const resolvers = {
+//   Query: {
+//     repos: () => repos,
+//   },
+// };
   await dataSource.initialize();
+  const schema = await buildSchema({
+    resolvers: [RepoResolver, StatusResolver, LangResolver]
+  })
 
-  console.log(`Example app listening on http://localhost:${SERVER_PORT}`)
-});
+  const server = new ApolloServer({ schema });
+
+  const { url } = await startStandaloneServer(server, {
+    listen: { port: 4000 },
+  });
+
+  console.log(`🚀  Server ready at: ${url}`);
+
+})();
