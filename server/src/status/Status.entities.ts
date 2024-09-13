@@ -7,12 +7,12 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Repo } from "../repo/Repo.entities";
-import { Field, ObjectType } from "type-graphql";
+import { Field, InputType, ObjectType, ID } from "type-graphql";
 
 @ObjectType()
 @Entity()
 export class Status extends BaseEntity {
-  @Field()
+  @Field(() => ID!)
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,7 +20,13 @@ export class Status extends BaseEntity {
   @Column()
   label: string;
 
-  @Field(() => Repo)
+  @Field(() => [Repo])
   @OneToMany(() => Repo, (repo) => repo.isPrivate, { onDelete: "CASCADE" })
   repos?: Repo[];
+}
+
+@InputType()
+export class NewStatus implements Partial<Status> {
+  @Field()
+  label: string;
 }

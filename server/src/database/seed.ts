@@ -34,11 +34,12 @@ dotenv.config();
     );
     console.log("Langs enregistrées avec succès:", savedLangs.length);
 
+    console.log(savedStatus)
     const savedRepos = await Promise.all(
       repos.map(async (rep) => {
         const repo = new Repo();
-        repo.id = rep.id;
-        repo.isPrivate = rep.isPrivate;
+        repo.gitHubKey = rep.id;
+        repo.isPrivate = savedStatus.find((status: Status) => status.id === rep.isPrivate) || savedStatus[0];
         repo.url = rep.url;
         repo.name = rep.name;
         repo.langs = repobyLang.reduce((tot: Lang[], el) => {
@@ -52,6 +53,7 @@ dotenv.config();
           }
           return tot;
         }, [])
+        console.log(repo)
         return repo.save();
       })
     );

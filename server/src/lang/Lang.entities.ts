@@ -6,13 +6,13 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany
 } from "typeorm";
-import { Field, ObjectType } from "type-graphql";
+import { Field, ObjectType, ID } from "type-graphql";
 import { Repo } from "../repo/Repo.entities";
 
 @ObjectType()
 @Entity()
 export class Lang extends BaseEntity {
-  @Field()
+  @Field(() => ID!)
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,7 +20,7 @@ export class Lang extends BaseEntity {
   @Column()
   name: string;
 
-  @Field(() => Repo)
+  @Field(() => [Repo])
   @ManyToMany(() => Repo, (repo) => repo.langs, { onDelete: "CASCADE" })
   repos: Repo[];
 }

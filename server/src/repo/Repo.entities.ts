@@ -4,20 +4,24 @@ import {
   Column,
   Entity,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable
 } from "typeorm";
-import { Field, ObjectType } from "type-graphql";
+import { Field, ID, InputType, ObjectType } from "type-graphql";
 import { Lang } from "../lang/Lang.entities";
 import { Status } from "../status/Status.entities";
 
 @ObjectType()
 @Entity()
 export class Repo extends BaseEntity {
+  @Field(() => ID!)
+  @PrimaryGeneratedColumn()
+  id: number
+
   @Field()
-  @PrimaryColumn()
-  id: string;
+  @Column()
+  gitHubKey: string;
 
   @Field()
   @Column()
@@ -28,12 +32,29 @@ export class Repo extends BaseEntity {
   url: string;
 
   @Field(() => Status)
-  @ManyToOne(() => Status, (status) => status.id)
-  isPrivate: number;
+  @ManyToOne(() => Status, (status) => status.repos)
+  isPrivate: Status;
 
   @Field(() => Lang)
   @ManyToMany(() => Lang, (lang) => lang.repos, { cascade: true })
   @JoinTable()
   langs: Lang[];
+}
 
+@InputType()
+export class NewRepo implements Partial<Repo> {
+  @Field(() => String!)
+  gitHubKey: string;
+
+  @Field()
+  name: string;
+
+  @Field()
+  url: string;
+
+  @Field(() => ID)
+  isPrivate: Status;
+
+  @Field(() => [ID])
+  langs: Lang[]
 }
