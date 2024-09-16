@@ -10,7 +10,9 @@ import { Status, NewStatus } from "./Status.entities";
 export default class StatusResolver {
   @Query(() => [Status])
   async getAllStatus() {
-    const Statuss = await Status.find();
+    const Statuss = await Status.find({
+      relations: { repos: true}
+    });
     return Statuss;
   }
 
@@ -18,6 +20,7 @@ export default class StatusResolver {
   async getStatusById(@Arg("StatusId") StatusId: string) {
     const ad = await Status.findOneOrFail({
       where: { id: Number(StatusId) },
+      relations: { repos: true}
     });
     return ad;
   }

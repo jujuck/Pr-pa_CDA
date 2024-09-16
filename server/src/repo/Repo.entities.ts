@@ -35,7 +35,7 @@ export class Repo extends BaseEntity {
   @ManyToOne(() => Status, (status) => status.repos)
   isPrivate: Status;
 
-  @Field(() => Lang)
+  @Field(() => [Lang])
   @ManyToMany(() => Lang, (lang) => lang.repos, { cascade: true })
   @JoinTable()
   langs: Lang[];

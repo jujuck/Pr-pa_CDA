@@ -9,7 +9,9 @@ import { Lang } from "./Lang.entities";
 export default class LangResolver {
   @Query(() => [Lang])
   async getAllLangs() {
-    const langs = await Lang.find();
+    const langs = await Lang.find({
+      relations: { repos: true}
+    });
     return langs;
   }
 
@@ -17,6 +19,7 @@ export default class LangResolver {
   async getLangById(@Arg("LangId") LangId: string) {
     const ad = await Lang.findOneOrFail({
       where: { id: Number(LangId) },
+      relations: {repos: true}
     });
     return ad;
   }

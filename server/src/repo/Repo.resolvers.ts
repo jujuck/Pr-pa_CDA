@@ -13,7 +13,9 @@ import { In } from "typeorm";
 export default class RepoResolver {
   @Query(() => [Repo])
   async getAllRepos() {
-    const repos = await Repo.find();
+    const repos = await Repo.find({
+      relations: { langs: true, isPrivate: true }
+    });
     return repos;
   }
 
@@ -21,31 +23,35 @@ export default class RepoResolver {
   async getRepoById(@Arg("repoId") repoId: string) {
     const ad = await Repo.findOneOrFail({
       where: { id: Number(repoId) },
+      relations: { langs: true, isPrivate: true }
     });
+    console.log("ad", ad)
     return ad;
   }
 
   @Mutation(() => Repo)
   async createNewRepo(@Arg("data") newRepo: NewRepo) {
-    console.log(newRepo)
     const status = await Status.findOneOrFail({ where: { id: Number(newRepo.isPrivate)}})
     const langs = await Lang.find({where : { id: In(newRepo.langs.map(l => Number(l))) }});
-    await Repo.save({
+    const myRepo = await Repo.save({
       ...newRepo,
       isPrivate: status,
       langs: langs
     });
-    // const result = await Repo.findOneOrFail({ where: {id: myRepo.id}})
-
-    console.log("result", {
-      ...newRepo,
-      isPrivate: status,
-      langs: langs
+    const result = await Repo.findOneOrFail({
+      where: {id: myRepo.id},
+      relations: { langs: true, isPrivate: true }
     })
-    return {
-      ...newRepo,
-      isPrivate: status,
-      langs: langs
-    }
+
+    return result;
+  }
+
+  @Mutation(() => Boolean)
+  async deleteRepo(@Arg("repoId") repoId: string) {
+    const result = await Repo.delete(
+        {id: Number(repoId)}
+    );
+
+    return result.affected;
   }
 }
