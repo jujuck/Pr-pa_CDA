@@ -1,8 +1,8 @@
 import { useQuery, gql } from "@apollo/client";
-import type { Lang } from "./type/Lang";
 import type { Repo } from "./type/Repo";
 
 import "./App.css";
+import Card from "./components/Card";
 
 const GET_REPOS = gql`
   query GetAllRepos {
@@ -24,19 +24,16 @@ function App() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
 
-  return data.getAllRepos.map(({ id, name, url, langs }: Repo) => (
-    <div key={id}>
-      <h3>{name}</h3>
-      <p>{url}</p>
-      <br />
-      <ul>
-        {langs.map(({ id, name }: Lang) => (
-          <li key={id}>{name}</li>
+  return (
+    <main className="container">
+      <section className="row">
+        <h1 className="text-center">Mes repo GitHub</h1>
+        {data.getAllRepos.map(({ id, name, url, langs }: Repo) => (
+          <Card key={id} langs={langs} name={name} url={url} id={id} />
         ))}
-      </ul>
-      <br />
-    </div>
-  ));
+      </section>
+    </main>
+  );
 }
 
 export default App;
