@@ -5,7 +5,6 @@ type LangList = {
 };
 
 function LangsList({ langs }: LangList) {
-  console.log(langs);
   return (
     <ul>
       {langs.map(({ id, name }: Lang) => (

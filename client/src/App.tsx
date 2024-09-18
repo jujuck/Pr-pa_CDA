@@ -11,6 +11,7 @@ const GET_REPOS = gql`
     getAllRepos(filter: $filter) {
       id
       name
+      gitHubKey
       langs {
         id
         name
@@ -23,6 +24,22 @@ const GET_REPOS = gql`
     getAllLangs {
       id
       name
+    }
+    getAllStatus {
+      id
+      label
+      repos {
+        name
+      }
+    }
+    getAllComments {
+      id
+      text
+      gitHubKey
+      repo {
+        name
+        gitHubKey
+      }
     }
   }
 `;
@@ -53,8 +70,15 @@ function App() {
         </ul>
       </section>
       <section className="row">
-        {data.getAllRepos.map(({ id, name, url, langs }: Repo) => (
-          <Card key={id} langs={langs} name={name} url={url} id={id} />
+        {data.getAllRepos.map(({ id, name, url, langs, gitHubKey }: Repo) => (
+          <Card
+            key={id}
+            langs={langs}
+            name={name}
+            url={url}
+            id={id}
+            gitHubKey={gitHubKey}
+          />
         ))}
       </section>
     </main>

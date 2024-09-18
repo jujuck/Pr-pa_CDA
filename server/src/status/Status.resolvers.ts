@@ -10,10 +10,10 @@ import { Status, NewStatus } from "./Status.entities";
 export default class StatusResolver {
   @Query(() => [Status])
   async getAllStatus() {
-    const Statuss = await Status.find({
+    const status = await Status.find({
       relations: { repos: true}
     });
-    return Statuss;
+    return status;
   }
 
   @Query(() => Status)

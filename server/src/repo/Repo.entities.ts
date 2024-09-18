@@ -6,11 +6,13 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   ManyToMany,
-  JoinTable
+  JoinTable,
+  OneToMany
 } from "typeorm";
 import { Field, ID, InputType, ObjectType } from "type-graphql";
 import { Lang } from "../lang/Lang.entities";
 import { Status } from "../status/Status.entities";
+import { Comment } from "../comment/Comment.entities";
 
 @ObjectType()
 @Entity()
@@ -20,7 +22,7 @@ export class Repo extends BaseEntity {
   id: number
 
   @Field()
-  @Column()
+  @Column({ unique: true })
   gitHubKey: string;
 
   @Field()
@@ -39,6 +41,10 @@ export class Repo extends BaseEntity {
   @ManyToMany(() => Lang, (lang) => lang.repos, { cascade: true })
   @JoinTable()
   langs: Lang[];
+
+  @Field(() => [Comment])
+  @OneToMany(() => Comment, (comment) => comment.repo, { cascade: false })
+  comments?: Comment[];
 }
 
 @InputType()

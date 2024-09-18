@@ -18,7 +18,7 @@ export default class RepoResolver {
         where: { langs: {
           id: Number(filter)
         }},
-        relations: { langs: true, isPrivate: true }
+        relations: { langs: true, isPrivate: true, comments: true }
     });
     }
     return await Repo.find({
@@ -30,9 +30,8 @@ export default class RepoResolver {
   async getRepoById(@Arg("repoId") repoId: string) {
     const ad = await Repo.findOneOrFail({
       where: { id: Number(repoId) },
-      relations: { langs: true, isPrivate: true }
+      relations: { langs: true, isPrivate: true}
     });
-    console.log("ad", ad)
     return ad;
   }
 
@@ -47,7 +46,7 @@ export default class RepoResolver {
     });
     const result = await Repo.findOneOrFail({
       where: {id: myRepo.id},
-      relations: { langs: true, isPrivate: true }
+      relations: { langs: true, isPrivate: true, comments: true }
     })
 
     return result;

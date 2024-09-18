@@ -21,6 +21,6 @@ export class Lang extends BaseEntity {
   name: string;
 
   @Field(() => [Repo])
-  @ManyToMany(() => Repo, (repo) => repo.langs, { onDelete: "CASCADE" })
+  @ManyToMany(() => Repo, (repo) => repo.langs)
   repos: Repo[];
 }

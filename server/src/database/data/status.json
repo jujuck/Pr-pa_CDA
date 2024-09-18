@@ -6,5 +6,9 @@
   {
     "id": 2,
     "label": "privée"
+  },
+  {
+    "id": 3,
+    "label": "unknown"
   }
 ]

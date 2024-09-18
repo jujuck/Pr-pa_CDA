@@ -5,4 +5,5 @@ export type Repo = {
   name: string;
   url: string;
   langs: [Lang];
+  gitHubKey: string;
 };

@@ -7,26 +7,25 @@ const fs = require("fs");
 
   const repos = raw.map((el) => ({
     id: el.id,
-    isPrivate: el.isPrivate ? 1 : 2,
+    isPrivate: !el.isPrivate ? 1 : 2,
     name: el.name,
     url: el.url,
   }));
 
   const langs = [];
-  const repo_by_lang = raw.map((el) => {
-    let lang_by = {};
+  const repo_by_lang = [];
+  raw.forEach((el) => {
     el.languages.forEach((lang) => {
       if (!langs.includes(lang.node.name)) {
         langs.push(lang.node.name);
       }
       const ind = langs.indexOf(lang.node.name);
-      lang_by = {
+      repo_by_lang.push({
         repo_id: el.id,
         lang_id: ind + 1,
         size: lang.size,
-      };
+      });
     });
-    return lang_by;
   });
 
   await fs.writeFile(

@@ -5,6 +5,7 @@ import RepoResolver from './repo/Repo.resolvers';
 import { buildSchema } from 'type-graphql';
 import StatusResolver from './status/Status.resolvers';
 import LangResolver from './lang/Lang.resolvers';
+import CommentResolver from "./comment/Comment.resolvers";
 
 (async () =>  {
 
@@ -35,7 +36,7 @@ import LangResolver from './lang/Lang.resolvers';
 // };
   await dataSource.initialize();
   const schema = await buildSchema({
-    resolvers: [RepoResolver, StatusResolver, LangResolver]
+    resolvers: [RepoResolver, StatusResolver, LangResolver, CommentResolver]
   })
 
   const server = new ApolloServer({ schema });
