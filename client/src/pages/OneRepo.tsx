@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, gql, useMutation } from "@apollo/client";
 import LangsList from "../components/LangsList";
+import type { Comment } from "../type/Comment";
 
 const GET_REPO = gql`
   query GetRepoById($repoId: String!) {
@@ -17,6 +18,10 @@ const GET_REPO = gql`
       isPrivate {
         label
       }
+      comments {
+        id
+        text
+      }
     }
   }
 `;
@@ -24,7 +29,6 @@ const GET_REPO = gql`
 const POST_COMMENT = gql`
   mutation CreateNewComment($data: NewComment!) {
     createNewComment(data: $data) {
-      id
       text
       gitHubKey
     }
@@ -61,6 +65,9 @@ function OneRepo() {
       <h3>{data.getRepoById.isPrivate.label}</h3>
       <LangsList langs={data.getRepoById.langs} />
       <a href={data.getRepoById.url}>Aller visiter le repo</a>
+      {data.getRepoById.comments.map((comment: Comment) => (
+        <p key={comment.id}>{comment.text}</p>
+      ))}
       <form onSubmit={handleComments}>
         <input value={comment} onChange={(e) => setComment(e.target.value)} />
         <button type="submit" onClick={handleComments}>
