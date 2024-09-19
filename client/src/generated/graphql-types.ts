@@ -140,6 +140,13 @@ export type GetRepoByIdQueryVariables = Exact<{
 
 export type GetRepoByIdQuery = { __typename?: 'Query', getRepoById: { __typename?: 'Repo', id: string, gitHubKey: string, name: string, url: string, langs: Array<{ __typename?: 'Lang', id: string, name: string }>, isPrivate: { __typename?: 'Status', label: string }, comments: Array<{ __typename?: 'Comment', id: string, text: string }> } };
 
+export type GetAllReposQueryVariables = Exact<{
+  filter?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetAllReposQuery = { __typename?: 'Query', getAllRepos: Array<{ __typename?: 'Repo', id: string, name: string, url: string, langs: Array<{ __typename?: 'Lang', id: string, name: string }>, isPrivate: { __typename?: 'Status', id: string, label: string } }>, getAllLangs: Array<{ __typename?: 'Lang', id: string, name: string }> };
+
 
 export const CreateNewCommentDocument = gql`
     mutation CreateNewComment($data: NewComment!) {
@@ -229,3 +236,57 @@ export type GetRepoByIdQueryHookResult = ReturnType<typeof useGetRepoByIdQuery>;
 export type GetRepoByIdLazyQueryHookResult = ReturnType<typeof useGetRepoByIdLazyQuery>;
 export type GetRepoByIdSuspenseQueryHookResult = ReturnType<typeof useGetRepoByIdSuspenseQuery>;
 export type GetRepoByIdQueryResult = Apollo.QueryResult<GetRepoByIdQuery, GetRepoByIdQueryVariables>;
+export const GetAllReposDocument = gql`
+    query GetAllRepos($filter: String) {
+  getAllRepos(filter: $filter) {
+    id
+    name
+    url
+    langs {
+      id
+      name
+    }
+    isPrivate {
+      id
+      label
+    }
+  }
+  getAllLangs {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useGetAllReposQuery__
+ *
+ * To run a query within a React component, call `useGetAllReposQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllReposQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllReposQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useGetAllReposQuery(baseOptions?: Apollo.QueryHookOptions<GetAllReposQuery, GetAllReposQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllReposQuery, GetAllReposQueryVariables>(GetAllReposDocument, options);
+      }
+export function useGetAllReposLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllReposQuery, GetAllReposQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllReposQuery, GetAllReposQueryVariables>(GetAllReposDocument, options);
+        }
+export function useGetAllReposSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAllReposQuery, GetAllReposQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllReposQuery, GetAllReposQueryVariables>(GetAllReposDocument, options);
+        }
+export type GetAllReposQueryHookResult = ReturnType<typeof useGetAllReposQuery>;
+export type GetAllReposLazyQueryHookResult = ReturnType<typeof useGetAllReposLazyQuery>;
+export type GetAllReposSuspenseQueryHookResult = ReturnType<typeof useGetAllReposSuspenseQuery>;
+export type GetAllReposQueryResult = Apollo.QueryResult<GetAllReposQuery, GetAllReposQueryVariables>;

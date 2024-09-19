@@ -1,4 +1,4 @@
-import { Lang } from "../type/Lang";
+import { Lang } from "../generated/graphql-types";
 
 type LangList = {
   langs: Lang[];

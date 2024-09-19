@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-import type { Lang } from "../type/Lang";
-import { Repo } from "../type/Repo";
+// import { Repo } from "../type/Repo";
+import { Repo } from "../generated/graphql-types";
 
 function Card({ name, url, langs, id }: Repo) {
   return (
@@ -13,7 +13,7 @@ function Card({ name, url, langs, id }: Repo) {
         </a>
         <br />
         <ul>
-          {langs.map(({ id, name }: Lang) => (
+          {langs.map(({ id, name }) => (
             <li key={id}>{name}</li>
           ))}
         </ul>

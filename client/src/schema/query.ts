@@ -21,3 +21,25 @@ export const GET_REPO = gql`
     }
   }
 `;
+
+ export const GET_REPOS = gql`
+  query GetAllRepos($filter: String) {
+    getAllRepos(filter: $filter) {
+      id
+      name
+      url
+      langs {
+        id
+        name
+      }
+      isPrivate {
+        id
+        label
+      }
+    }
+    getAllLangs {
+      id
+      name
+    }
+  }
+`;
