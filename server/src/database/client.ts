@@ -4,6 +4,7 @@ import { Repo } from "../repo/Repo.entities";
 import { Lang } from "../lang/Lang.entities";
 import { Status } from "../status/Status.entities";
 import { Comment } from "../comment/Comment.entities";
+import { User } from "../user/User.entities";
 
 dotenv.config();
 
@@ -12,7 +13,7 @@ const { BACKEND_DBFILE } = process.env;
 export const dataSource = new DataSource({
   type: "sqlite",
   database: `${BACKEND_DBFILE}`,
-  entities: [Repo, Lang, Status, Comment],
+  entities: [Repo, Lang, Status, Comment, User],
   synchronize: true,
 });
 
