@@ -3,7 +3,7 @@ import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { dataSource } from "./database/client";
 import { buildSchema } from 'type-graphql';
-// import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 import RepoResolver from './repo/Repo.resolvers';
 import StatusResolver from './status/Status.resolvers';
@@ -11,7 +11,7 @@ import LangResolver from './lang/Lang.resolvers';
 import CommentResolver from "./comment/Comment.resolvers";
 import UserResolver from './user/User.resolvers';
 
-interface Context {
+export type Context = {
   email?: string;
   role?: string;
   res: any;
@@ -74,22 +74,28 @@ interface Context {
 
   const { url } = await startStandaloneServer(server, {
     listen: { port: 4000 },
-    context: async ({ res }) => {
+    context: async ({ req, res }) => {
       // if (process.env.JWT_SECRET_KEY === undefined) {
       //   throw new Error("NO JWT SECRET KEY CONFIGURED");
       // }
 
-
-      // if (req.headers.cookie.token && req.headers.cookie.token.value) {
-      //   const payload = jwt.verify(
-      //     cookies.token.value,
-      //     process.env.JWT_SECRET_KEY
-      //   ) as {};
-      //   if (payload) {
-      //     return { ...payload, res: res };
-      //   }
-      // }
-      return { res: res };
+      //console.log(req.headers.authorization)
+      if (req.headers.authorization) {
+        const bearer =  req.headers.authorization.split(' ');
+        if (bearer.length === 2 && bearer[0] === "Bearer") {
+          const payload = jwt.verify(
+            bearer[1],
+            "masuperclesecretemegatroplongue"
+          ) as {};
+          if (payload) {
+            return { ...payload, res };
+          }
+        } else {
+          return { res }
+        }
+      //
+      }
+      return { res };
     },
   });
 

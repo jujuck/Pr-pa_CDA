@@ -1,7 +1,8 @@
 import { Mutation, Resolver, Arg, Ctx } from "type-graphql";
-import { Sign, User } from "./User.entities";
+import { Sign, SignInResponse, User } from "./User.entities";
 import { validate } from "class-validator";
 import jwt from "jsonwebtoken";
+
 
 @Resolver(User)
 export default class UserResolver {
@@ -21,7 +22,7 @@ export default class UserResolver {
     return resultUser;
   }
 
-  @Mutation(() => User)
+  @Mutation(() => SignInResponse)
   async signIn(@Arg("data") signIn: Sign, @Ctx() context: any) {
     const errors = await validate(signIn);
 
@@ -31,19 +32,15 @@ export default class UserResolver {
 
     try {
       const user = await User.findOneByOrFail({ email: signIn.email});
-      // check du argon
+      // check du argon normalement
 
-      console.log(user)
       if (user.password === signIn.password) {
-        console.log("password check pass")
-        const token = jwt.sign({id: user.id, email: user.email}, "masuperclesecretemegatroplongue");
-        console.log("token",token)
+        const token = jwt.sign({id: user.id, email: user.email}, "masuperclesecretemegatroplongue");//Clé sotckée en .env
         context.res.setHeader(
           "Set-Cookie",
-          `token=token;secure;httpOnly;SameSite=None`
+          `token=${token};secure;httpOnly;SameSite:none`
         );
-        console.log("Ready to return")
-        return user
+        return {user, token}
       } else {
         throw new Error("Invalid credentials")
       }

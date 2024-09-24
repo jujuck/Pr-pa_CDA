@@ -3,6 +3,7 @@ import {
   Query,
   Resolver,
   Mutation,
+  Authorized
 } from "type-graphql";
 import { Repo, NewRepo } from "./Repo.entities";
 import { Status } from "../status/Status.entities";
@@ -11,6 +12,7 @@ import { In } from "typeorm";
 
 @Resolver(Repo)
 export default class RepoResolver {
+  @Authorized()
   @Query(() => [Repo])
   async getAllRepos(@Arg("filter", {nullable: true}) filter: string) {
     if (filter) {

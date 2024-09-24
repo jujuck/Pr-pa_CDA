@@ -38,7 +38,7 @@ export type Mutation = {
   createNewRepo: Repo;
   createNewStatus: Status;
   deleteRepo: Scalars['Boolean']['output'];
-  signIn: User;
+  signIn: SignInResponse;
   signUp: User;
 };
 
@@ -136,6 +136,12 @@ export type Sign = {
   password: Scalars['String']['input'];
 };
 
+export type SignInResponse = {
+  __typename?: 'SignInResponse';
+  token: Scalars['String']['output'];
+  user: User;
+};
+
 export type Status = {
   __typename?: 'Status';
   id: Scalars['ID']['output'];
@@ -162,7 +168,7 @@ export type SignUpMutationVariables = Exact<{
 }>;
 
 
-export type SignUpMutation = { __typename?: 'Mutation', signIn: { __typename?: 'User', id: string, email: string } };
+export type SignUpMutation = { __typename?: 'Mutation', signIn: { __typename?: 'SignInResponse', token: string, user: { __typename?: 'User', email: string, id: string } } };
 
 export type GetRepoByIdQueryVariables = Exact<{
   repoId: Scalars['String']['input'];
@@ -209,8 +215,11 @@ export type CreateNewCommentMutationOptions = Apollo.BaseMutationOptions<CreateN
 export const SignUpDocument = gql`
     mutation SignUp($data: Sign!) {
   signIn(data: $data) {
-    id
-    email
+    user {
+      email
+      id
+    }
+    token
   }
 }
     `;

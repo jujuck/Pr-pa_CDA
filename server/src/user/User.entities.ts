@@ -36,3 +36,12 @@ export class Sign implements Partial<User> {
   @Length(8, 20, { message: 'Password must be between 8 and 20 characters' })
   password: string;
 }
+
+@ObjectType()
+export class SignInResponse {
+  @Field(() => User)
+  user: User;
+
+  @Field()
+  token: string;
+}

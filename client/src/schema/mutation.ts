@@ -12,6 +12,10 @@ export const POST_COMMENT = gql`
 export const LOGIN = gql`
   mutation SignUp($data: Sign!) {
     signIn(data: $data) {
-      id, email
+    user {
+      email
+      id
     }
+    token
+  }
 }`;
