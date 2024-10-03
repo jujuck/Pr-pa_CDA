@@ -15,6 +15,7 @@ function App() {
 
   const filterRepo = (filter: string | null) => {
     refetch({ filter });
+    console.log("TEST de husky sur commit");
   };
 
   if (data) {
