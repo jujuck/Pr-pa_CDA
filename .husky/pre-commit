@@ -1,0 +1,10 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+
+echo '----- Checking Root...'
+
+echo '----- Done!'
+
+npx validate-branch-name
+npm run lint
