@@ -1,3 +1,1 @@
-echo 'I am in, husky in action'
-
 npm run lint
