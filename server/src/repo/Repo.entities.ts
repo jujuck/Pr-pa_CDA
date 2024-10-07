@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
-  OneToMany
+  OneToMany,
 } from "typeorm";
 import { Field, ID, InputType, ObjectType } from "type-graphql";
 import { Lang } from "../lang/Lang.entities";
@@ -19,7 +19,7 @@ import { Comment } from "../comment/Comment.entities";
 export class Repo extends BaseEntity {
   @Field(() => ID!)
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Field()
   @Column({ unique: true })
@@ -62,5 +62,5 @@ export class NewRepo implements Partial<Repo> {
   isPrivate: Status;
 
   @Field(() => [ID])
-  langs: Lang[]
+  langs: Lang[];
 }

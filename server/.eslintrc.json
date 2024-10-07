@@ -1,0 +1,13 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier" // Cela désactive les règles ESLint en conflit avec Prettier
+  ],
+  "plugins": ["@typescript-eslint", "prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    "no-console": ["error", { "allow": ["error", "info", "warn"] }]
+    // Autres règles ESLint que vous souhaitez appliquer
+  }
+}

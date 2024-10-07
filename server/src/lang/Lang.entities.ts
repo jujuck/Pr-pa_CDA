@@ -4,7 +4,7 @@ import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
-  ManyToMany
+  ManyToMany,
 } from "typeorm";
 import { Field, ObjectType, ID } from "type-graphql";
 import { Repo } from "../repo/Repo.entities";

@@ -20,13 +20,17 @@ dotenv.config();
   try {
     await queryRunner.startTransaction();
 
-    await queryRunner.query(`UPDATE comment SET repoId = NULL WHERE repoId IS NOT NULL;`);
+    await queryRunner.query(
+      `UPDATE comment SET repoId = NULL WHERE repoId IS NOT NULL;`
+    );
     await queryRunner.query(`DELETE FROM repo_langs_lang`);
     await queryRunner.query(`DELETE FROM lang`);
     await queryRunner.query(`DELETE FROM repo`);
     await queryRunner.query(`DELETE FROM status`);
 
-    await queryRunner.query(`DELETE FROM sqlite_sequence WHERE name='status' OR name='repo' OR name='lang'`);
+    await queryRunner.query(
+      `DELETE FROM sqlite_sequence WHERE name='status' OR name='repo' OR name='lang'`
+    );
 
     const savedStatus = await Promise.all(
       status.map(async (el) => {
@@ -51,41 +55,44 @@ dotenv.config();
       repos.map(async (rep) => {
         const repo = new Repo();
         repo.gitHubKey = rep.id;
-        repo.isPrivate = savedStatus.find((status: Status) => status.id === rep.isPrivate) || savedStatus[0];
+        repo.isPrivate =
+          savedStatus.find((status: Status) => status.id === rep.isPrivate) ||
+          savedStatus[0];
         repo.url = rep.url;
         repo.name = rep.name;
         repo.comments = comments.reduce((tot: Comment[], el) => {
           if (el.gitHubKey === rep.id) {
             tot.push(el);
-            return tot
+            return tot;
           }
           return tot;
-        }, [])
+        }, []);
         repo.langs = repobyLang.reduce((tot: Lang[], el) => {
           if (el.repo_id === rep.id) {
             const mySaveLang = savedLangs.find((_, index) => {
-              return index + 1 === el.lang_id
+              return index + 1 === el.lang_id;
             });
             if (mySaveLang) {
               tot.push(mySaveLang);
             }
           }
           return tot;
-        }, [])
+        }, []);
         return repo.save();
       })
     );
     console.log("Langs enregistrées avec succès:", savedRepos.length);
 
-
     const synchroComment = await Promise.all(
       comments.map(async (comment) => {
-        const repo = savedRepos.find((repo: Repo) => repo.gitHubKey === comment.gitHubKey)
+        const repo = savedRepos.find(
+          (repo: Repo) => repo.gitHubKey === comment.gitHubKey
+        );
         return await Comment.update(comment.id, {
-          repo: repo
-        })
+          repo: repo,
+        });
       })
-    )
+    );
 
     console.log("Comments synchronisé avec succès:", synchroComment.length);
 
@@ -98,6 +105,6 @@ dotenv.config();
     console.error("ERROR while seeding the DB");
     console.error(err.message);
   } finally {
-     await queryRunner.release();
+    await queryRunner.release();
   }
 })();

@@ -21,7 +21,7 @@ export class Status extends BaseEntity {
   label: string;
 
   @Field(() => [Repo])
-  @OneToMany(() => Repo, (repo) => repo.isPrivate, { onDelete: 'NO ACTION'})
+  @OneToMany(() => Repo, (repo) => repo.isPrivate, { onDelete: "NO ACTION" })
   repos?: Repo[];
 }
 

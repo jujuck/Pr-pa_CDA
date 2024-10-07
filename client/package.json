@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint .",
+    "lint": "eslint '*/**/*.{js,jsx,ts,tsx}'",
+    "format": "prettier --write '*/**/*.{js,jsx,ts,tsx}'",
     "preview": "vite preview",
     "codegen": "graphql-codegen --config codegen.ts"
   },
@@ -33,5 +34,9 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1"
+  },
+  "lint-staged": {
+    "*.{html,scss,css}": "prettier --check",
+    "*.{tsx,ts}": "eslint --report-unused-disable-directives"
   }
 }

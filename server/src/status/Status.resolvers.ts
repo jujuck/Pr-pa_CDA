@@ -1,9 +1,4 @@
-import {
-  Arg,
-  Query,
-  Resolver,
-  Mutation
-} from "type-graphql";
+import { Arg, Query, Resolver, Mutation } from "type-graphql";
 import { Status, NewStatus } from "./Status.entities";
 
 @Resolver(Status)
@@ -11,7 +6,7 @@ export default class StatusResolver {
   @Query(() => [Status])
   async getAllStatus() {
     const status = await Status.find({
-      relations: { repos: true}
+      relations: { repos: true },
     });
     return status;
   }
@@ -20,7 +15,7 @@ export default class StatusResolver {
   async getStatusById(@Arg("StatusId") StatusId: string) {
     const ad = await Status.findOneOrFail({
       where: { id: Number(StatusId) },
-      relations: { repos: true}
+      relations: { repos: true },
     });
     return ad;
   }
