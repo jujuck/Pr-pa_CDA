@@ -34,7 +34,7 @@ const fs = require("fs");
     (err) =>
       err
         ? console.error("Data not written!", err)
-        : console.log("Data correctly merge in json file")
+        : console.info("Data correctly merge in json file")
   );
 
   await fs.writeFile(
@@ -43,7 +43,7 @@ const fs = require("fs");
     (err) =>
       err
         ? console.error("Data not written!", err)
-        : console.log("Data correctly merge in json file")
+        : console.info("Data correctly merge in json file")
   );
 
   await fs.writeFile(
@@ -52,7 +52,7 @@ const fs = require("fs");
     (err) =>
       err
         ? console.error("Data not written!", err)
-        : console.log("Data correctly merge in json file")
+        : console.info("Data correctly merge in json file")
   );
 
   await fs.writeFile(
@@ -68,6 +68,6 @@ const fs = require("fs");
     (err) =>
       err
         ? console.error("Data not written!", err)
-        : console.log("Data correctly merge in json file")
+        : console.info("Data correctly merge in json file")
   );
 })();

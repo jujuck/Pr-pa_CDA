@@ -39,7 +39,7 @@ dotenv.config();
         return status.save();
       })
     );
-    console.log("Status enregistrés avec succès:", savedStatus.length);
+    console.info("Status enregistrés avec succès:", savedStatus.length);
 
     const savedLangs = await Promise.all(
       lang.map(async (el) => {
@@ -48,7 +48,7 @@ dotenv.config();
         return lang.save();
       })
     );
-    console.log("Langs enregistrées avec succès:", savedLangs.length);
+    console.info("Langs enregistrées avec succès:", savedLangs.length);
 
     const comments = await Comment.find();
     const savedRepos = await Promise.all(
@@ -81,7 +81,7 @@ dotenv.config();
         return repo.save();
       })
     );
-    console.log("Langs enregistrées avec succès:", savedRepos.length);
+    console.info("Langs enregistrées avec succès:", savedRepos.length);
 
     const synchroComment = await Promise.all(
       comments.map(async (comment) => {
@@ -94,12 +94,12 @@ dotenv.config();
       })
     );
 
-    console.log("Comments synchronisé avec succès:", synchroComment.length);
+    console.info("Comments synchronisé avec succès:", synchroComment.length);
 
-    console.log("Synchro réalisée avec succès:");
+    console.info("Synchro réalisée avec succès:");
     await queryRunner.commitTransaction();
 
-    console.log("DB initialized");
+    console.info("DB initialized");
   } catch (err) {
     await queryRunner.rollbackTransaction();
     console.error("ERROR while seeding the DB");
