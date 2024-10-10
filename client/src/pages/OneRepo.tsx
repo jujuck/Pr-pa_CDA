@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, SyntheticEvent } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, gql, useMutation } from "@apollo/client";
 import LangsList from "../components/LangsList";
@@ -43,7 +43,7 @@ function OneRepo() {
   });
   const [addComment] = useMutation(POST_COMMENT);
 
-  const handleComments = (e) => {
+  const handleComments = (e: SyntheticEvent) => {
     e.preventDefault();
     addComment({
       variables: {
