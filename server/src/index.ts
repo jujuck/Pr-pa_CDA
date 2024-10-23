@@ -39,7 +39,7 @@ import CommentResolver from "./comment/Comment.resolvers";
   const server = new ApolloServer({ schema });
 
   const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
+    listen: { port: 3000 },
   });
 
   console.info(`🚀  Server ready at: ${url}`);
