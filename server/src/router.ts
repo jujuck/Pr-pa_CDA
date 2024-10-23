@@ -4,7 +4,7 @@ import RepoController from "./repo/Repo.controllers";
 
 const router = express.Router();
 
-router.use('/langs', LangController);
-router.use('/repos', RepoController)
+router.use("/langs", LangController);
+router.use("/repos", RepoController);
 
 export default router;

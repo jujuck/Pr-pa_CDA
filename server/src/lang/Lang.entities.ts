@@ -4,7 +4,7 @@ import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
-  ManyToMany
+  ManyToMany,
 } from "typeorm";
 import { Field, ObjectType, ID } from "type-graphql";
 import { Repo } from "../repo/Repo.entities";
@@ -21,6 +21,6 @@ export class Lang extends BaseEntity {
   name: string;
 
   @Field(() => [Repo])
-  @ManyToMany(() => Repo, (repo) => repo.langs, { onDelete: "CASCADE" })
+  @ManyToMany(() => Repo, (repo) => repo.langs)
   repos: Repo[];
 }
