@@ -8,8 +8,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 20
-    volumes:
-      - ./persist/dev-db:/var/lib/postgresql/data
 
   pgadminer:
     image: adminer
@@ -37,12 +35,12 @@ services:
 
   client:
     build: ./client
-    command: npm run preview -- --host
+    command: npm run dev
     ports:
-      - "4173:4173"
+      - "5173:5173"
     env_file: .env
     restart: always
     environment:
       - NODE_ENV=production
     volumes:
-      - ./client/dist:/app/dist/
+      - ./client/src:/app/src/
