@@ -5,7 +5,8 @@
   },
   "scripts": {
     "prepare": "husky",
-    "lint": "lint-staged"
+    "lint": "lint-staged",
+    "fullinstall": "npm i && cd client && npm i && cd ../server && npm i"
   },
   "lint-staged": {
     "api/**/*.{js,jsx,ts,tsx}": [

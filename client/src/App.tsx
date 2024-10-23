@@ -10,6 +10,8 @@ function App() {
     },
   });
 
+  console.log("Hello");
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
 
@@ -21,6 +23,7 @@ function App() {
     return (
       <main className="container">
         <h1 className="text-center">Mes repo GitHub</h1>
+        <h2>Un super projet pour découvrir nos tech CDA</h2>
         <section>
           <ul className="d-flex flex-row justify-content-between">
             <li onClick={() => filterRepo(null)}>Aucun filtre</li>
