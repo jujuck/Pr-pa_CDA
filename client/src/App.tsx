@@ -30,8 +30,8 @@ function App() {
           </ul>
         </section>
         <section className="row">
-          {data.getAllRepos.map(({ id, name, url, langs }) => (
-            <Card key={id} langs={langs} name={name} url={url} id={id} />
+          {data.getAllRepos.map((repo) => (
+            <Card key={repo.id} repo={repo} />
           ))}
         </section>
       </main>

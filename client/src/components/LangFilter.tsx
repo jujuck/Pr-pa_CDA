@@ -1,7 +1,7 @@
 import { Lang } from "../generated/graphql-types";
 
 type Props = {
-  lang: Lang;
+  lang: Omit<Lang, "repos">;
   filterRepo: (id: string) => void;
 };
 
