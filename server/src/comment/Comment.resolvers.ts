@@ -1,11 +1,17 @@
 import { Arg, Query, Resolver, Mutation } from "type-graphql";
 import { Comment, NewComment } from "./Comment.entities";
 import { Repo } from "../repo/Repo.entities";
+import { GraphQLError } from "graphql";
 
 @Resolver(Comment)
 export default class LangResolver {
   @Query(() => [Comment])
   async getAllComments() {
+    throw new GraphQLError("Test d'erreur avec message personnalisé", {
+      extensions: {
+        code: 404,
+      },
+    });
     const comments = await Comment.find({
       relations: { repo: true },
     });
